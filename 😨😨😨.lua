@@ -158,69 +158,39 @@ function library.new(library, name, theme)
 	local UIGradientTitle = Instance.new("UIGradient")
 
 
-      if syn and syn.protect_gui then syn.protect_gui(FengYu) end
-    
-      FengYu.Name = "frosty"
-      FengYu.Parent = services.CoreGui
-      
-      function UiDestroy()
-          FengYu:Destroy()
-      end
-      
-          function ToggleUILib()
-            if not ToggleUI then
-                FengYu.Enabled = false
-                ToggleUI = true
-                else
-                ToggleUI = false
-                FengYu.Enabled = true
-            end
-        end
-      
-      Main.Name = "Main"
-      Main.Parent = FengYu
-      Main.AnchorPoint = Vector2.new(0.5, 0.5)
-      Main.BackgroundColor3 = Background
-      Main.BorderColor3 = MainColor
-      Main.Position = UDim2.new(0.5, 0, 0.5, 0)
-      Main.Size = UDim2.new(0, 572, 0, 353)
-      Main.ZIndex = 1
-      Main.Active = true
-      Main.Draggable = true
-      Main.Transparency = 1.0
-      services.UserInputService.InputEnded:Connect(function(input)
-      if input.KeyCode == Enum.KeyCode.LeftControl then
-      if Main.Visible == true then
-      Main.Visible = false else
-      Main.Visible = true
-      end
-      end
-      end)
-      drag(Main)
-      
-      UICornerMain.Parent = Main
-      UICornerMain.CornerRadius = UDim.new(0,3)
-      
-      DropShadowHolder.Name = "DropShadowHolder"
-      DropShadowHolder.Parent = Main
-      DropShadowHolder.BackgroundTransparency = 1.000
-      DropShadowHolder.BorderSizePixel = 0
-      DropShadowHolder.Size = UDim2.new(1, 0, 1, 0)
-      DropShadowHolder.BorderColor3 = Color3.fromRGB(255,255,255)
-      DropShadowHolder.ZIndex = 0
+	if syn and syn.protect_gui then
+		syn.protect_gui(FengYu)
+	end
+	FengYu.Name = "REN"
+	FengYu.Parent = services.CoreGui
+	function UiDestroy()
+		FengYu:Destroy()
+	end
+	function ToggleUILib()
+		if not ToggleUI then
+			FengYu.Enabled = false
+			ToggleUI = true
+		else
+			ToggleUI = false
+			FengYu.Enabled = true
+		end
+	end
+	Main.Name = "Main"
+	Main.Parent = FengYu
+	Main.AnchorPoint = Vector2.new(0.5, 0.5)
+	Main.BackgroundColor3 = config.Bg_Color
+	Main.BorderColor3 = config.MainColor
+	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Main.Size = UDim2.new(0, 572, 0, 353)
+	Main.ZIndex = 1
+	Main.Active = true
+	Main.Draggable = true
+	services.UserInputService.InputEnded:Connect(function(input)
+		if input.KeyCode == Enum.KeyCode.LeftControl then
+			Main.Visible = not Main.Visible
+		end
+	end)
 
-      DropShadow.Name = "DropShadow"
-      DropShadow.Parent = DropShadowHolder
-      DropShadow.AnchorPoint = Vector2.new(0.5, 0.5)
-      DropShadow.BackgroundTransparency = 1.000
-      DropShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
-      DropShadow.Size = UDim2.new(1, 10, 1, 10)
-      DropShadow.Image = "rbxassetid://104917769472497" --背景
-      DropShadow.ImageColor3 = Color3.fromRGB(255,255,255)
-      DropShadow.SliceCenter = Rect.new(49, 49, 450, 450)
-
-
-      UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.10, Color3.fromRGB(255, 127, 0)), ColorSequenceKeypoint.new(0.20, Color3.fromRGB(255, 255, 0)), ColorSequenceKeypoint.new(0.30, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.40, Color3.fromRGB(0, 255, 255)), ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 0, 255)), ColorSequenceKeypoint.new(0.60, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.70, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.80, Color3.fromRGB(255, 127, 0)), ColorSequenceKeypoint.new(0.90, Color3.fromRGB(255, 255, 0)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))}
 
 	local Open = Instance.new("ImageButton")
 	local UICorner = Instance.new("UICorner")
@@ -327,117 +297,135 @@ function library.new(library, name, theme)
 		TabBtns.CanvasSize = UDim2.new(0, 0, 0, TabBtnsL.AbsoluteContentSize.Y + 18)
 	end)
 
-	local window = {}
-	function window.Tab(window, name, icon)
-		local Tab = Instance.new("ScrollingFrame")
-		local TabIco = Instance.new("ImageLabel")
-		local TabText = Instance.new("TextLabel")
-		local TabBtn = Instance.new("TextButton")
-		local TabL = Instance.new("UIListLayout")
-		Tab.Name = "Tab"
-		Tab.Parent = TabMain
-		Tab.Active = true
-		Tab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		Tab.BackgroundTransparency = 1.000
-		Tab.Size = UDim2.new(1, 0, 1, 0)
-		Tab.ScrollBarThickness = 2
-		Tab.Visible = false
-		TabIco.Name = "TabIco"
-		TabIco.Parent = TabBtns
-		TabIco.BackgroundTransparency = 1.000
-		TabIco.BorderSizePixel = 0
-		TabIco.Size = UDim2.new(0, 24, 0, 24)
-		TabIco.Image = ("rbxassetid://%s"):format((icon or 4370341699))
-		TabIco.ImageTransparency = 0.2
-		TabText.Name = "TabText"
-		TabText.Parent = TabIco
-		TabText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		TabText.BackgroundTransparency = 1.000
-		TabText.Position = UDim2.new(1.41666663, 0, 0, 0)
-		TabText.Size = UDim2.new(0, 76, 0, 24)
-		TabText.Font = Enum.Font.GothamSemibold
-		TabText.Text = name
-		TabText.TextColor3 = Color3.fromRGB(255, 255, 255)
-		TabText.TextSize = 14.000
-		TabText.TextXAlignment = Enum.TextXAlignment.Left
-		TabText.TextTransparency = 0.2
-		TabBtn.Name = "TabBtn"
-		TabBtn.Parent = TabIco
-		TabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		TabBtn.BackgroundTransparency = 1.000
-		TabBtn.BorderSizePixel = 0
-		TabBtn.Size = UDim2.new(0, 110, 0, 24)
-		TabBtn.AutoButtonColor = false
-		TabBtn.Font = Enum.Font.SourceSans
-		TabBtn.Text = ""
-		TabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-		TabBtn.TextSize = 14.000
-		TabL.Name = "TabL"
-		TabL.Parent = Tab
-		TabL.SortOrder = Enum.SortOrder.LayoutOrder
-		TabL.Padding = UDim.new(0, 4)
-		TabBtn.MouseButton1Click:Connect(function()
-			spawn(function()
-				Ripple(TabBtn)
-			end)
-			switchTab({ TabIco, Tab })
-		end)
-		if library.currentTab == nil then
-			switchTab({ TabIco, Tab })
-		end
-		TabL:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-			Tab.CanvasSize = UDim2.new(0, 0, 0, TabL.AbsoluteContentSize.Y + 8)
-		end)
-		local tab = {}
-		function tab.section(tab, name, TabVal)
-			local Section = Instance.new("Frame")
-			local SectionC = Instance.new("UICorner")
-			local SectionText = Instance.new("TextLabel")
-			local SectionOpen = Instance.new("ImageLabel")
-			local SectionOpened = Instance.new("ImageLabel")
-			local SectionToggle = Instance.new("ImageButton")
-			local Objs = Instance.new("Frame")
-			local ObjsL = Instance.new("UIListLayout")
-			Section.Name = "Section"
-			Section.Parent = Tab
-			Section.BackgroundColor3 = config.TabColor
-			Section.BackgroundTransparency = 1.000
-			Section.BorderSizePixel = 0
-			Section.ClipsDescendants = true
-			Section.Size = UDim2.new(0.981000006, 0, 0, 36)
-			SectionC.CornerRadius = UDim.new(0, 6)
-			SectionC.Name = "SectionC"
-			SectionC.Parent = Section
-			SectionText.Name = "SectionText"
-			SectionText.Parent = Section
-			SectionText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			SectionText.BackgroundTransparency = 1.000
-			SectionText.Position = UDim2.new(0.0887396261, 0, 0, 0)
-			SectionText.Size = UDim2.new(0, 401, 0, 36)
-			SectionText.Font = Enum.Font.GothamSemibold
-			SectionText.Text = name
-			SectionText.TextColor3 = Color3.fromRGB(255, 255, 255)
-			SectionText.TextSize = 16.000
-			SectionText.TextXAlignment = Enum.TextXAlignment.Left
-			SectionOpen.Name = "SectionOpen"
-			SectionOpen.Parent = SectionText
-			SectionOpen.BackgroundTransparency = 1
-			SectionOpen.BorderSizePixel = 0
-			SectionOpen.Position = UDim2.new(0, -33, 0, 5)
-			SectionOpen.Size = UDim2.new(0, 26, 0, 26)
-			SectionOpen.Image = "http://www.roblox.com/asset/?id=84830962019412"
-			SectionOpened.Name = "SectionOpened"
-			SectionOpened.Parent = SectionOpen
-			SectionOpened.BackgroundTransparency = 1.000
-			SectionOpened.BorderSizePixel = 0
-			SectionOpened.Size = UDim2.new(0, 26, 0, 26)
-			SectionOpened.Image = "http://www.roblox.com/asset/?id=84830962019412"
-			SectionOpened.ImageTransparency = 1.000
-			SectionToggle.Name = "SectionToggle"
-			SectionToggle.Parent = SectionOpen
-			SectionToggle.BackgroundTransparency = 1
-			SectionToggle.BorderSizePixel = 0
-			SectionToggle.Size = UDim2.new(0, 26, 0, 26)
+      local window = {}
+      function window.Tab(window, name, icon)
+        local Tab = Instance.new("ScrollingFrame")
+        local TabIco = Instance.new("ImageLabel")
+        local TabText = Instance.new("TextLabel")
+        local TabBtn = Instance.new("TextButton")
+        local TabL = Instance.new("UIListLayout")
+    
+        Tab.Name = "Tab"
+        Tab.Parent = TabMain
+        Tab.Active = true
+        Tab.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        Tab.BackgroundTransparency = 1.000
+        Tab.Size = UDim2.new(1, 0, 1, 0)
+        Tab.ScrollBarThickness = 2
+        Tab.Visible = false
+        
+        TabIco.Name = "TabIco"
+        TabIco.Parent = TabBtns
+        TabIco.BackgroundTransparency = 1.000
+        TabIco.BorderSizePixel = 0
+        TabIco.Size = UDim2.new(0, 24, 0, 24)
+        TabIco.Image = "rbxassetid://84830962019412" or icon and "rbxassetid://"..icon
+        TabIco.ImageTransparency = 0.2
+        
+        TabText.Name = "TabText"
+        TabText.Parent = TabIco
+        TabText.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        TabText.BackgroundTransparency = 1.000
+        TabText.Position = UDim2.new(1.41666663, 0, 0, 0)
+        TabText.Size = UDim2.new(0, 76, 0, 24)
+        TabText.Font = Enum.Font.GothamSemibold
+        TabText.Text = name
+        TabText.TextColor3 = ALcolor
+        TabText.TextSize = 14.000
+        TabText.TextXAlignment = Enum.TextXAlignment.Left
+        TabText.TextTransparency = 0.2
+        
+        TabBtn.Name = "TabBtn"
+        TabBtn.Parent = TabIco
+        TabBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        TabBtn.BackgroundTransparency = 1.000
+        TabBtn.BorderSizePixel = 0
+        TabBtn.Size = UDim2.new(0, 110, 0, 24)
+        TabBtn.AutoButtonColor = false
+        TabBtn.Font = Enum.Font.SourceSans
+        TabBtn.Text = ""
+        TabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+        TabBtn.TextSize = 14.000
+        
+        TabL.Name = "TabL"
+        TabL.Parent = Tab
+        TabL.SortOrder = Enum.SortOrder.LayoutOrder
+        TabL.Padding = UDim.new(0, 4)  
+    
+        TabBtn.MouseButton1Click:Connect(function()
+            spawn(function()
+                Ripple(TabBtn)
+            end)
+          switchTab({TabIco, Tab})
+        end)
+    
+        if library.currentTab == nil then switchTab({TabIco, Tab}) end
+    
+        TabL:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+          Tab.CanvasSize = UDim2.new(0, 0, 0, TabL.AbsoluteContentSize.Y + 8)
+        end)
+------------------------------------------------------AL.King音乐-------------------------------------------------------
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://6797864253" --音乐id
+    sound.Parent = game.Workspace
+    sound:Play()
+---------------分割线-------------------------------分割线-------------------------------分割线----------------
+        local tab = {}
+        function tab.section(tab, name, TabVal)
+          local Section = Instance.new("Frame")
+          local SectionC = Instance.new("UICorner")
+          local SectionText = Instance.new("TextLabel")
+          local SectionOpen = Instance.new("ImageLabel")
+          local SectionOpened = Instance.new("ImageLabel")
+          local SectionToggle = Instance.new("ImageButton")
+          local Objs = Instance.new("Frame")
+          local ObjsL = Instance.new("UIListLayout")
+    
+          Section.Name = "Section"
+          Section.Parent = Tab
+          Section.BackgroundColor3 = zyColor
+          Section.BackgroundTransparency = 1.000
+          Section.BorderSizePixel = 0
+          Section.ClipsDescendants = true
+          Section.Size = UDim2.new(0.981000006, 0, 0, 36)
+          
+          SectionC.CornerRadius = UDim.new(0, 6)
+          SectionC.Name = "SectionC"
+          SectionC.Parent = Section
+          
+          SectionText.Name = "SectionText"
+          SectionText.Parent = Section
+          SectionText.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+          SectionText.BackgroundTransparency = 1.000
+          SectionText.Position = UDim2.new(0.0887396261, 0, 0, 0)
+          SectionText.Size = UDim2.new(0, 401, 0, 36)
+          SectionText.Font = Enum.Font.GothamSemibold
+          SectionText.Text = name
+          SectionText.TextColor3 = ALcolor
+          SectionText.TextSize = 16.000
+          SectionText.TextXAlignment = Enum.TextXAlignment.Left
+          
+          SectionOpen.Name = "SectionOpen"
+          SectionOpen.Parent = SectionText
+          SectionOpen.BackgroundTransparency = 1
+          SectionOpen.BorderSizePixel = 0
+          SectionOpen.Position = UDim2.new(0, -33, 0, 5)
+          SectionOpen.Size = UDim2.new(0, 26, 0, 26)
+          SectionOpen.Image = "rbxassetid://84830962019412"
+          
+          SectionOpened.Name = "SectionOpened"
+          SectionOpened.Parent = SectionOpen
+          SectionOpened.BackgroundTransparency = 1.000
+          SectionOpened.BorderSizePixel = 0
+          SectionOpened.Size = UDim2.new(0, 26, 0, 26)
+          SectionOpened.Image = "rbxassetid://84830962019412"
+          SectionOpened.ImageTransparency = 1.000
+    
+          SectionToggle.Name = "SectionToggle"
+          SectionToggle.Parent = SectionOpen
+          SectionToggle.BackgroundTransparency = 1
+          SectionToggle.BorderSizePixel = 0
+          SectionToggle.Size = UDim2.new(0, 26, 0, 26)
 			Objs.Name = "Objs"
 			Objs.Parent = Section
 			Objs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
