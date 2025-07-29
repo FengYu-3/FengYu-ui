@@ -158,39 +158,69 @@ function library.new(library, name, theme)
 	local UIGradientTitle = Instance.new("UIGradient")
 
 
-	if syn and syn.protect_gui then
-		syn.protect_gui(FengYu)
-	end
-	FengYu.Name = "REN"
-	FengYu.Parent = services.CoreGui
-	function UiDestroy()
-		FengYu:Destroy()
-	end
-	function ToggleUILib()
-		if not ToggleUI then
-			FengYu.Enabled = false
-			ToggleUI = true
-		else
-			ToggleUI = false
-			FengYu.Enabled = true
-		end
-	end
-	Main.Name = "Main"
-	Main.Parent = FengYu
-	Main.AnchorPoint = Vector2.new(0.5, 0.5)
-	Main.BackgroundColor3 = config.Bg_Color
-	Main.BorderColor3 = config.MainColor
-	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
-	Main.Size = UDim2.new(0, 572, 0, 353)
-	Main.ZIndex = 1
-	Main.Active = true
-	Main.Draggable = true
-	services.UserInputService.InputEnded:Connect(function(input)
-		if input.KeyCode == Enum.KeyCode.LeftControl then
-			Main.Visible = not Main.Visible
-		end
-	end)
+      if syn and syn.protect_gui then syn.protect_gui(FengYu) end
+    
+      FengYu.Name = "frosty"
+      FengYu.Parent = services.CoreGui
+      
+      function UiDestroy()
+          FengYu:Destroy()
+      end
+      
+          function ToggleUILib()
+            if not ToggleUI then
+                FengYu.Enabled = false
+                ToggleUI = true
+                else
+                ToggleUI = false
+                FengYu.Enabled = true
+            end
+        end
+      
+      Main.Name = "Main"
+      Main.Parent = FengYu
+      Main.AnchorPoint = Vector2.new(0.5, 0.5)
+      Main.BackgroundColor3 = Background
+      Main.BorderColor3 = MainColor
+      Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+      Main.Size = UDim2.new(0, 572, 0, 353)
+      Main.ZIndex = 1
+      Main.Active = true
+      Main.Draggable = true
+      Main.Transparency = 1.0
+      services.UserInputService.InputEnded:Connect(function(input)
+      if input.KeyCode == Enum.KeyCode.LeftControl then
+      if Main.Visible == true then
+      Main.Visible = false else
+      Main.Visible = true
+      end
+      end
+      end)
+      drag(Main)
+      
+      UICornerMain.Parent = Main
+      UICornerMain.CornerRadius = UDim.new(0,3)
+      
+      DropShadowHolder.Name = "DropShadowHolder"
+      DropShadowHolder.Parent = Main
+      DropShadowHolder.BackgroundTransparency = 1.000
+      DropShadowHolder.BorderSizePixel = 0
+      DropShadowHolder.Size = UDim2.new(1, 0, 1, 0)
+      DropShadowHolder.BorderColor3 = Color3.fromRGB(255,255,255)
+      DropShadowHolder.ZIndex = 0
 
+      DropShadow.Name = "DropShadow"
+      DropShadow.Parent = DropShadowHolder
+      DropShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+      DropShadow.BackgroundTransparency = 1.000
+      DropShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+      DropShadow.Size = UDim2.new(1, 10, 1, 10)
+      DropShadow.Image = "rbxassetid://104917769472497" --背景
+      DropShadow.ImageColor3 = Color3.fromRGB(255,255,255)
+      DropShadow.SliceCenter = Rect.new(49, 49, 450, 450)
+
+
+      UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.10, Color3.fromRGB(255, 127, 0)), ColorSequenceKeypoint.new(0.20, Color3.fromRGB(255, 255, 0)), ColorSequenceKeypoint.new(0.30, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.40, Color3.fromRGB(0, 255, 255)), ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 0, 255)), ColorSequenceKeypoint.new(0.60, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.70, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(0.80, Color3.fromRGB(255, 127, 0)), ColorSequenceKeypoint.new(0.90, Color3.fromRGB(255, 255, 0)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))}
 
 	local Open = Instance.new("ImageButton")
 	local UICorner = Instance.new("UICorner")
