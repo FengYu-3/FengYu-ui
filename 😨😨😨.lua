@@ -4,7 +4,7 @@ until game:IsLoaded()
 local library = {}
 local ToggleUI = false
 library.currentTab = nil
-library.flaFG = {}
+library.flags = {}
 local services = setmetatable({}, {
 	__index = function(t, k)
 		return game.GetService(game, k)
@@ -499,7 +499,7 @@ function library.new(library, name, theme)
 				local enabled = enabled or false
 				assert(text, "No text provided")
 				assert(flag, "No flag provided")
-				library.flaFG[flag] = enabled
+				library.flags[flag] = enabled
 
 				local ToggleModule = Instance.new("Frame")
 				local ToggleBtn = Instance.new("TextButton")
@@ -548,9 +548,9 @@ function library.new(library, name, theme)
 				local funcs = {
 					SetState = function(self, state)
 						if state == nil then
-							state = not library.flaFG[flag]
+							state = not library.flags[flag]
 						end
-						if library.flaFG[flag] == state then
+						if library.flags[flag] == state then
 							return
 						end
 						services.TweenService
@@ -559,7 +559,7 @@ function library.new(library, name, theme)
 								BackgroundColor3 = (state and config.Toggle_On or config.Toggle_Off),
 							})
 							:Play()
-						library.flaFG[flag] = state
+						library.flags[flag] = state
 						callback(state)
 					end,
 					Module = ToggleModule,
@@ -690,7 +690,7 @@ function library.new(library, name, theme)
 				assert(text, "No text provided")
 				assert(flag, "No flag provided")
 				assert(default, "No default text provided")
-				library.flaFG[flag] = default
+				library.flags[flag] = default
 				local TextboxModule = Instance.new("Frame")
 				local TextboxBack = Instance.new("TextButton")
 				local TextboxBackC = Instance.new("UICorner")
@@ -755,7 +755,7 @@ function library.new(library, name, theme)
 					if TextBox.Text == "" then
 						TextBox.Text = default
 					end
-					library.flaFG[flag] = TextBox.Text
+					library.flags[flag] = TextBox.Text
 					callback(TextBox.Text)
 				end)
 				TextBox:GetPropertyChangedSignal("TextBounds"):Connect(function()
@@ -769,7 +769,7 @@ function library.new(library, name, theme)
 				local max = max or 10
 				local default = default or min
 				local precise = precise or false
-				library.flaFG[flag] = default
+				library.flags[flag] = default
 				assert(text, "No text provided")
 				assert(flag, "No flag provided")
 				assert(default, "No default value provided")
@@ -885,19 +885,19 @@ function library.new(library, name, theme)
 						else
 							value = value or math.floor(min + (max - min) * percent)
 						end
-						library.flaFG[flag] = tonumber(value)
+						library.flags[flag] = tonumber(value)
 						SliderValue.Text = tostring(value)
 						SliderPart.Size = UDim2.new(percent, 0, 1, 0)
 						callback(tonumber(value))
 					end,
 				}
 				MinSlider.MouseButton1Click:Connect(function()
-					local currentValue = library.flaFG[flag]
+					local currentValue = library.flags[flag]
 					currentValue = math.clamp(currentValue - 1, min, max)
 					funcs:SetValue(currentValue)
 				end)
 				AddSlider.MouseButton1Click:Connect(function()
-					local currentValue = library.flaFG[flag]
+					local currentValue = library.flags[flag]
 					currentValue = math.clamp(currentValue + 1, min, max)
 					funcs:SetValue(currentValue)
 				end)
@@ -967,7 +967,7 @@ function library.new(library, name, theme)
 				local options = options or {}
 				assert(text, "No text provided")
 				assert(flag, "No flag provided")
-				library.flaFG[flag] = nil
+				library.flags[flag] = nil
 				local DropdownModule = Instance.new("Frame")
 				local DropdownTop = Instance.new("TextButton")
 				local DropdownTopC = Instance.new("UICorner")
@@ -1106,7 +1106,7 @@ function library.new(library, name, theme)
 						ToggleDropVis()
 						callback(Option.Text)
 						DropdownText.Text = Option.Text
-						library.flaFG[flag] = Option.Text
+						library.flags[flag] = Option.Text
 					end)
 				end
 				funcs.RemoveOption = function(self, option)
