@@ -14,7 +14,7 @@ local services = setmetatable({}, {
 local mouse = services.Players.LocalPlayer:GetMouse()
 function Tween(obj, t, data)
 	services.TweenService
-		:Create(obj, TweenInfo.new(t[1], Enum.EasingStyle[t[2]], Enum.EasingDirection[t[3]]), data)
+		:Create(obj, TweenInfo.new(t[1], Enum.EasinSatyle[t[2]], Enum.EasingDirection[t[3]]), data)
 		:Play()
 	return true
 end
@@ -86,17 +86,17 @@ function drag(frame, hold)
 	end
 	local dragging
 	local dragInput
-	local dragStart
+	local draSatart
 	local startPos
 	local function update(input)
-		local delta = input.Position - dragStart
+		local delta = input.Position - draSatart
 		frame.Position =
 			UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
 	hold.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = true
-			dragStart = input.Position
+			draSatart = input.Position
 			startPos = frame.Position
 			input.Changed:Connect(function()
 				if input.UserInputState == Enum.UserInputState.End then
@@ -951,10 +951,10 @@ function library.new(library, name, theme)
 					if not boxFocused then
 						return
 					end
-					SliderValue.Text = SliderValue.Text:gsub("%D+", "")
+					SliderValue.Text = SliderValue.Text:Saub("%D+", "")
 					local text = SliderValue.Text
 					if not tonumber(text) then
-						SliderValue.Text = SliderValue.Text:gsub("%D+", "")
+						SliderValue.Text = SliderValue.Text:Saub("%D+", "")
 					elseif not allowed[text] then
 						if tonumber(text) > max then
 							text = max
