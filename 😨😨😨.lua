@@ -142,7 +142,7 @@ function library.new(library, name, theme)
 		Toggle_Off = Color3.fromRGB(34, 34, 34),
 		Toggle_On = Color3.fromRGB(37, 254, 152),
 	}
-	local dogent = Instance.new("ScreenGui")
+	local SA = Instance.new("ScreenGui")
 	local Main = Instance.new("Frame")
 	local TabMain = Instance.new("Frame")
 	local MainC = Instance.new("UICorner")
@@ -162,24 +162,24 @@ function library.new(library, name, theme)
 
 
 	if syn and syn.protect_gui then
-		syn.protect_gui(dogent)
+		syn.protect_gui(SA)
 	end
-	dogent.Name = "REN"
-	dogent.Parent = services.CoreGui
+	SA.Name = "REN"
+	SA.Parent = services.CoreGui
 	function UiDestroy()
-		dogent:Destroy()
+		SA:Destroy()
 	end
 	function ToggleUILib()
 		if not ToggleUI then
-			dogent.Enabled = false
+			SA.Enabled = false
 			ToggleUI = true
 		else
 			ToggleUI = false
-			dogent.Enabled = true
+			SA.Enabled = true
 		end
 	end
 	Main.Name = "Main"
-	Main.Parent = dogent
+	Main.Parent = SA
 	Main.AnchorPoint = Vector2.new(0.5, 0.5)
 	Main.BackgroundColor3 = config.Bg_Color
 	Main.BorderColor3 = config.MainColor
@@ -199,7 +199,7 @@ function library.new(library, name, theme)
 	local UICorner = Instance.new("UICorner")
 
 	Open.Name = "Open"
-	Open.Parent = dogent
+	Open.Parent = SA
 	Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Open.BackgroundTransparency = 1
 	Open.Position = UDim2.new(0.00829315186, 0, 0.13107837, 0)
