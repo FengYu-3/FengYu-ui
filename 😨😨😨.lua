@@ -10,7 +10,6 @@ local services = setmetatable({}, {
 		return game.GetService(game, k)
 	end,
 })
-
 local mouse = services.Players.LocalPlayer:GetMouse()
 function Tween(obj, t, data)
 	services.TweenService
@@ -18,7 +17,6 @@ function Tween(obj, t, data)
 		:Play()
 	return true
 end
-
 function Ripple(obj)
 	spawn(function()
 		if obj.ClipsDescendants ~= true then
@@ -79,7 +77,6 @@ function switchTab(new)
 	task.wait(0.1)
 	switchingTabs = false
 end
-
 function drag(frame, hold)
 	if not hold then
 		hold = frame
