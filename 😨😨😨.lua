@@ -13,7 +13,7 @@ local services = setmetatable({}, {
 local mouse = services.Players.LocalPlayer:GetMouse()
 function Tween(obj, t, data)
 	services.TweenService
-		:Create(obj, TweenInfo.new(t[1], Enum.EasinFGtyle[t[2]], Enum.EasingDirection[t[3]]), data)
+		:Create(obj, TweenInfo.new(t[1], Enum.EasinFengYutyle[t[2]], Enum.EasingDirection[t[3]]), data)
 		:Play()
 	return true
 end
@@ -83,17 +83,17 @@ function drag(frame, hold)
 	end
 	local dragging
 	local dragInput
-	local draFGtart
+	local draFengYutart
 	local startPos
 	local function update(input)
-		local delta = input.Position - draFGtart
+		local delta = input.Position - draFengYutart
 		frame.Position =
 			UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
 	hold.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = true
-			draFGtart = input.Position
+			draFengYutart = input.Position
 			startPos = frame.Position
 			input.Changed:Connect(function()
 				if input.UserInputState == Enum.UserInputState.End then
@@ -139,7 +139,7 @@ function library.new(library, name, theme)
 		Toggle_Off = Color3.fromRGB(34, 34, 34),
 		Toggle_On = Color3.fromRGB(37, 254, 152),
 	}
-	local FG = Instance.new("ScreenGui")
+	local FengYu = Instance.new("ScreenGui")
 	local Main = Instance.new("Frame")
 	local TabMain = Instance.new("Frame")
 	local MainC = Instance.new("UICorner")
@@ -159,24 +159,24 @@ function library.new(library, name, theme)
 
 
 	if syn and syn.protect_gui then
-		syn.protect_gui(FG)
+		syn.protect_gui(FengYu)
 	end
-	FG.Name = "REN"
-	FG.Parent = services.CoreGui
+	FengYu.Name = "REN"
+	FengYu.Parent = services.CoreGui
 	function UiDestroy()
-		FG:Destroy()
+		FengYu:Destroy()
 	end
 	function ToggleUILib()
 		if not ToggleUI then
-			FG.Enabled = false
+			FengYu.Enabled = false
 			ToggleUI = true
 		else
 			ToggleUI = false
-			FG.Enabled = true
+			FengYu.Enabled = true
 		end
 	end
 	Main.Name = "Main"
-	Main.Parent = FG
+	Main.Parent = FengYu
 	Main.AnchorPoint = Vector2.new(0.5, 0.5)
 	Main.BackgroundColor3 = config.Bg_Color
 	Main.BorderColor3 = config.MainColor
@@ -196,7 +196,7 @@ function library.new(library, name, theme)
 	local UICorner = Instance.new("UICorner")
 
 	Open.Name = "Open"
-	Open.Parent = FG
+	Open.Parent = FengYu
 	Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Open.BackgroundTransparency = 1
 	Open.Position = UDim2.new(0.00829315186, 0, 0.13107837, 0)
@@ -948,10 +948,10 @@ function library.new(library, name, theme)
 					if not boxFocused then
 						return
 					end
-					SliderValue.Text = SliderValue.Text:FGub("%D+", "")
+					SliderValue.Text = SliderValue.Text:FengYuub("%D+", "")
 					local text = SliderValue.Text
 					if not tonumber(text) then
-						SliderValue.Text = SliderValue.Text:FGub("%D+", "")
+						SliderValue.Text = SliderValue.Text:FengYuub("%D+", "")
 					elseif not allowed[text] then
 						if tonumber(text) > max then
 							text = max
