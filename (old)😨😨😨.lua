@@ -29,12 +29,10 @@ MAIN.AnchorPoint = Vector2.new(0.5,0.5)
 MAIN.Position = UDim2.new(0.5, 0, 0.5, 0)
 MAIN.Size = UDim2.new(0, 357, 0, 158)
 
-local WindowStroke = Instance.new("UIStroke")
-
 WindowStroke.Name = "WindowStroke"
 WindowStroke.Parent = MAIN
 WindowStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-WindowStroke.Color = Color3.fromRGB(255,0,0)
+WindowStroke.Color = Color3.fromRGB(255,255,255)
 WindowStroke.LineJoinMode = Enum.LineJoinMode.Round
 WindowStroke.Thickness = 2
 WindowStroke.Transparency = 0
@@ -544,14 +542,22 @@ end
 
 -- Properties:
 
--- 修改 Frame 部分（添加圆角）
+-- 修改 Frame 部分（添加红色边框）
 Frame.Parent = dogent
 Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
 Frame.Size = UDim2.new(0, 50, 0, 50)
-Frame.BackgroundTransparency = 1.000
+Frame.BackgroundTransparency = 1.000  -- 背景透明
+
+-- 添加红色边框
+local FrameStroke = Instance.new("UIStroke")
+FrameStroke.Parent = Frame
+FrameStroke.Color = Color3.fromRGB(255, 0, 0)
+FrameStroke.Thickness = 2
+FrameStroke.LineJoinMode = Enum.LineJoinMode.Round
+FrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 local FrameCorner = Instance.new("UICorner")
 FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
@@ -566,13 +572,16 @@ Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
-Open.MouseButton1Click:Connect(function()
-  Main.Visible = not Main.Visible
-  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
-end)
+
+-- 添加红色边框
+local OpenStroke = Instance.new("UIStroke")
+OpenStroke.Parent = Open
+OpenStroke.Color = Color3.fromRGB(255, 0, 0)
+OpenStroke.Thickness = 2
+OpenStroke.LineJoinMode = Enum.LineJoinMode.Round
 
 local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 8) --圆形大小
+OpenCorner.CornerRadius = UDim.new(0, 8)
 OpenCorner.Name = "OpenCorner"
 OpenCorner.Parent = Open
 
