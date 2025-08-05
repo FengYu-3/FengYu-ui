@@ -563,14 +563,16 @@ Open.BorderSizePixel = 0
 Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
-Open.Image = "rbxassetid://91090755249894"
+Open.Image = "rbxassetid://84830962019412"
+Open.BackgroundTransparency = 1
+Open.ScaleType = Enum.ScaleType.Stretch
 Open.MouseButton1Click:Connect(function()
   Main.Visible = not Main.Visible
   Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
 end)
 
 local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 8)
+OpenCorner.CornerRadius = UDim.new(0, 8) --圆形大小
 OpenCorner.Name = "OpenCorner"
 OpenCorner.Parent = Open
 
