@@ -17,7 +17,9 @@ local BAR = Instance.new("Frame")
 local UICorner_2 = Instance.new("UICorner")
 local TITLE = Instance.new("TextLabel")
 local LOADING = Instance.new("TextLabel")
-local WindowStroke = Instance.new("UIStroke")
+if Main:FindFirstChild("WindowStroke") then
+    Main.WindowStroke:Destroy()
+end
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -29,15 +31,15 @@ MAIN.AnchorPoint = Vector2.new(0.5,0.5)
 MAIN.Position = UDim2.new(0.5, 0, 0.5, 0)
 MAIN.Size = UDim2.new(0, 357, 0, 158)
 
-WindowStroke.Name = "WindowStroke"
-WindowStroke.Parent = MAIN
-WindowStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-WindowStroke.Color = Color3.fromRGB(255,255,255)
-WindowStroke.LineJoinMode = Enum.LineJoinMode.Round
-WindowStroke.Thickness = 2
-WindowStroke.Transparency = 0
-WindowStroke.Enabled = true
-WindowStroke.Archivable = true
+local borderImage = Instance.new("ImageLabel")
+borderImage.Name = "RedBorder"
+borderImage.Image = "rbxassetid://14847215954" -- 1x1 纯红色图片
+borderImage.ScaleType = Enum.ScaleType.Slice
+borderImage.SliceCenter = Rect.new(1, 1, 1, 1) -- 九宫格拉伸
+borderImage.BackgroundTransparency = 1
+borderImage.Size = UDim2.new(1, 0, 1, 0)
+borderImage.Position = UDim2.new(0, 0, 0, 0)
+borderImage.Parent = Main
 
 LOGO.Name = "LOGO"
 LOGO.Parent = MAIN
