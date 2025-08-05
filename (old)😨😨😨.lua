@@ -542,7 +542,7 @@ end
 
 -- Properties:
 
--- 修改 Frame 部分（移除圆角）
+-- 修改 Frame 部分（添加圆角）
 Frame.Parent = dogent
 Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -551,9 +551,10 @@ Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
 Frame.Size = UDim2.new(0, 50, 0, 50)
 Frame.BackgroundTransparency = 1.000
 
--- 移除 UICorner（不再需要圆角）
--- UICorner.CornerRadius = UDim.new(0, 90)
--- UICorner.Parent = Frame
+-- 添加圆角（4个角都是圆的）
+local FrameCorner = Instance.new("UICorner")
+FrameCorner.CornerRadius = UDim.new(0, 8) -- 调整这个值可以改变圆角大小
+FrameCorner.Parent = Frame
 
 Open.Parent = Frame
 Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -568,9 +569,11 @@ Open.MouseButton1Click:Connect(function()
   Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
 end)
 
--- 移除 Open 按钮的 UICorner（不再需要圆角）
--- UICorner_2.CornerRadius = UDim.new(0, 90)
--- UICorner_2.Parent = Open
+-- 添加圆角（4个角都是圆的）
+local OpenCorner = Instance.new("UICorner")
+OpenCorner.CornerRadius = UDim.new(0, 8) -- 调整这个值可以改变圆角大小
+OpenCorner.Parent = Open
+
 UIG.Parent = Open
       
       local window = {}
