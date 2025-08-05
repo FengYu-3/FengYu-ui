@@ -17,9 +17,7 @@ local BAR = Instance.new("Frame")
 local UICorner_2 = Instance.new("UICorner")
 local TITLE = Instance.new("TextLabel")
 local LOADING = Instance.new("TextLabel")
-if Main:FindFirstChild("WindowStroke") then
-    Main.WindowStroke:Destroy()
-end
+local WindowStroke = Instance.new("UIStroke")
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -31,15 +29,15 @@ MAIN.AnchorPoint = Vector2.new(0.5,0.5)
 MAIN.Position = UDim2.new(0.5, 0, 0.5, 0)
 MAIN.Size = UDim2.new(0, 357, 0, 158)
 
-local borderImage = Instance.new("ImageLabel")
-borderImage.Name = "RedBorder"
-borderImage.Image = "rbxassetid://14847215954" -- 1x1 纯红色图片
-borderImage.ScaleType = Enum.ScaleType.Slice
-borderImage.SliceCenter = Rect.new(1, 1, 1, 1) -- 九宫格拉伸
-borderImage.BackgroundTransparency = 1
-borderImage.Size = UDim2.new(1, 0, 1, 0)
-borderImage.Position = UDim2.new(0, 0, 0, 0)
-borderImage.Parent = Main
+WindowStroke.Name = "WindowStroke"
+WindowStroke.Parent = MAIN
+WindowStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+WindowStroke.Color = Color3.fromRGB(255,255,255)
+WindowStroke.LineJoinMode = Enum.LineJoinMode.Round
+WindowStroke.Thickness = 2
+WindowStroke.Transparency = 0
+WindowStroke.Enabled = true
+WindowStroke.Archivable = true
 
 LOGO.Name = "LOGO"
 LOGO.Parent = MAIN
@@ -546,12 +544,12 @@ end
 
 -- 修改 Frame 部分（添加红色边框）
 Frame.Parent = dogent
-Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
 Frame.Size = UDim2.new(0, 50, 0, 50)
-Frame.BackgroundTransparency = 1.000  -- 背景透明
+Frame.BackgroundTransparency = 0.1
 
 -- 添加红色边框
 local FrameStroke = Instance.new("UIStroke")
@@ -566,11 +564,40 @@ FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
 FrameCorner.Name = "FrameCorner"
 FrameCorner.Parent = Frame
 
-Open.Parent = Frame
-Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Open.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Open.BorderSizePixel = 0
-Open.Size = UDim2.new(0, 50, 0, 50)
+local function safeDrag(button)
+    local dragToggle = false
+    local startPos
+    button.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragToggle = true
+            startPos = button.Position
+           
+            button:TweenSize(UDim2.new(0, 45, 0, 45), "Out", "Quad", 0.1, true)
+        end
+    end)
+
+    game:GetService("UserInputService").InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragToggle = false
+           
+            button:TweenSize(UDim2.new(0, 50, 0, 50), "Out", "Quad", 0.1, true)
+        end
+    end)
+
+ 
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if dragToggle then
+            local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+           
+            local newX = math.clamp(mouse.X - button.AbsoluteSize.X/2, 0, workspace.CurrentCamera.ViewportSize.X - button.AbsoluteSize.X)
+            local newY = math.clamp(mouse.Y - button.AbsoluteSize.Y/2, 0, workspace.CurrentCamera.ViewportSize.Y - button.AbsoluteSize.Y)
+            button.Position = UDim2.new(0, newX, 0, newY)
+        end
+    end)
+end
+
+safeDrag(Open)
+
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
@@ -594,8 +621,9 @@ mainStroke.Color = Color3.fromRGB(255, 0, 0)
 mainStroke.Thickness = 2
 mainStroke.LineJoinMode = Enum.LineJoinMode.Miter
 
--- 添加红色边框
-local OpenStroke = Instance.new("UIStroke")
+if Open:FindFirstChild("UIStroke") then
+    Open.UIStroke:Destroy()
+end
 OpenStroke.Parent = Open
 OpenStroke.Color = Color3.fromRGB(255, 0, 0)
 OpenStroke.Thickness = 2
