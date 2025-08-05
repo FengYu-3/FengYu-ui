@@ -551,9 +551,9 @@ Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
 Frame.Size = UDim2.new(0, 50, 0, 50)
 Frame.BackgroundTransparency = 1.000
 
--- 添加圆角（4个角都是圆的）
 local FrameCorner = Instance.new("UICorner")
-FrameCorner.CornerRadius = UDim.new(0, 8) -- 调整这个值可以改变圆角大小
+FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
+FrameCorner.Name = "FrameCorner"
 FrameCorner.Parent = Frame
 
 Open.Parent = Frame
@@ -569,9 +569,9 @@ Open.MouseButton1Click:Connect(function()
   Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
 end)
 
--- 添加圆角（4个角都是圆的）
 local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 8) -- 调整这个值可以改变圆角大小
+OpenCorner.CornerRadius = UDim.new(0, 8)
+OpenCorner.Name = "OpenCorner"
 OpenCorner.Parent = Open
 
 UIG.Parent = Open
