@@ -572,10 +572,25 @@ Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
+-- 修复后的 Open 按钮逻辑
 Open.MouseButton1Click:Connect(function()
   Main.Visible = not Main.Visible
-  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
+  Main.Transparency = Main.Visible and 0 or 1
+  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412"
 end)
+
+-- 修复拖拽残影的 Main 设置
+Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Main.BackgroundTransparency = 0.1  -- 保留轻微背景
+Main.Active = true
+Main.Draggable = true
+
+-- 稳定的红色边框
+local mainStroke = Instance.new("UIStroke")
+mainStroke.Parent = Main
+mainStroke.Color = Color3.fromRGB(255, 0, 0)
+mainStroke.Thickness = 2
+mainStroke.LineJoinMode = Enum.LineJoinMode.Miter
 
 -- 添加红色边框
 local OpenStroke = Instance.new("UIStroke")
