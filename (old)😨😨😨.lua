@@ -547,7 +547,10 @@ Frame.Parent = dogent
 Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
-Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
+Frame.Position = UDim2.new(
+    0.00829315186, math.floor(0.00829315186 * viewportSize.X),
+    0.31107837, math.floor(0.31107837 * viewportSize.Y)
+)
 Frame.Size = UDim2.new(0, 50, 0, 50)
 Frame.BackgroundTransparency = 1.000
 
@@ -564,8 +567,6 @@ Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
-Open.BackgroundTransparency = 1
-Open.ScaleType = Enum.ScaleType.Stretch
 Open.MouseButton1Click:Connect(function()
   Main.Visible = not Main.Visible
   Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
