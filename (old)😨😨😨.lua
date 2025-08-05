@@ -572,6 +572,10 @@ Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
+Open.MouseButton1Click:Connect(function()
+  Main.Visible = not Main.Visible
+  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
+end)
 
 -- 添加红色边框
 local OpenStroke = Instance.new("UIStroke")
