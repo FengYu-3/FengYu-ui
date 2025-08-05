@@ -29,10 +29,12 @@ MAIN.AnchorPoint = Vector2.new(0.5,0.5)
 MAIN.Position = UDim2.new(0.5, 0, 0.5, 0)
 MAIN.Size = UDim2.new(0, 357, 0, 158)
 
+local WindowStroke = Instance.new("UIStroke")
+
 WindowStroke.Name = "WindowStroke"
 WindowStroke.Parent = MAIN
 WindowStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-WindowStroke.Color = Color3.fromRGB(255,255,255)
+WindowStroke.Color = Color3.fromRGB(255,0,0)
 WindowStroke.LineJoinMode = Enum.LineJoinMode.Round
 WindowStroke.Thickness = 2
 WindowStroke.Transparency = 0
@@ -542,69 +544,37 @@ end
 
 -- Properties:
 
--- 创建悬浮窗容器（Frame）
-local Frame = Instance.new("Frame")
+-- 修改 Frame 部分（添加圆角）
 Frame.Parent = dogent
-Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)  -- 背景色
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
-Frame.Position = UDim2.new(0.008, 0, 0.311, 0)
+Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
 Frame.Size = UDim2.new(0, 50, 0, 50)
-Frame.Active = true  -- 必须启用交互
-Frame.Draggable = false  -- 禁用默认拖动，用自定义逻辑
+Frame.BackgroundTransparency = 1.000
 
--- 添加圆角（UICorner）
 local FrameCorner = Instance.new("UICorner")
-FrameCorner.CornerRadius = UDim.new(0, 8)
+FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
+FrameCorner.Name = "FrameCorner"
 FrameCorner.Parent = Frame
 
--- 添加描边（UIStroke）强化边缘
-local FrameStroke = Instance.new("UIStroke")
-FrameStroke.Color = Color3.fromRGB(255, 0, 0)
-FrameStroke.Thickness = 1
-FrameStroke.LineJoinMode = Enum.LineJoinMode.Round
-FrameStroke.Parent = Frame
-
--- 创建悬浮窗按钮（Open）
-local Open = Instance.new("ImageButton")
 Open.Parent = Frame
-Open.BackgroundTransparency = 1
-Open.Size = UDim2.new(1, 0, 1, 0)
+Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Open.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Open.BorderSizePixel = 0
+Open.Size = UDim2.new(0, 50, 0, 50)
+Open.Active = true
+Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
-Open.ScaleType = Enum.ScaleType.Fit
+Open.MouseButton1Click:Connect(function()
+  Main.Visible = not Main.Visible
+  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
+end)
 
--- 按钮圆角
 local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 8)
+OpenCorner.CornerRadius = UDim.new(0, 8) --圆形大小
+OpenCorner.Name = "OpenCorner"
 OpenCorner.Parent = Open
-
--- 关键修复：重新绑定拖动功能
-local UserInputService = game:GetService("UserInputService")
-local dragging = false
-local dragStartPos = Vector2.new(0, 0)
-local frameStartPos = UDim2.new(0, 0, 0, 0)
-
-Open.MouseButton1Down:Connect(function()
-    dragging = true
-    dragStartPos = UserInputService:GetMouseLocation()
-    frameStartPos = Frame.Position
-end)
-
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local mousePos = UserInputService:GetMouseLocation()
-        local delta = mousePos - dragStartPos
-        Frame.Position = UDim2.new(
-            frameStartPos.X.Scale, frameStartPos.X.Offset + delta.X,
-            frameStartPos.Y.Scale, frameStartPos.Y.Offset + delta.Y
-        )
-    end
-end)
-
-UserInputService.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-end)
 
 UIG.Parent = Open
       
