@@ -182,37 +182,46 @@ function switchTab(new)
 end
 
 -- # Drag, Stolen from Kiriot or Wally # --
-local function safeDrag(button)
-    local dragging
-    button.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            -- 拖动时临时提高透明度（减少残影）
-            Frame.BackgroundTransparency = 0.8
-        end
-    end)
+function drag(frame, hold)
+	if not hold then
+		hold = frame
+	end
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
 
-    game:GetService("UserInputService").InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-            -- 恢复透明度
-            Frame.BackgroundTransparency = 0.5
-        end
-    end)
+	local function update(input)
+		local delta = input.Position - dragStart
+		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
 
-    game:GetService("RunService").Heartbeat:Connect(function()
-        if dragging then
-            local mouse = game:GetService("Players").LocalPlayer:GetMouse()
-            -- 限制拖拽范围（避免移出屏幕）
-            local newX = math.clamp(mouse.X - Frame.AbsoluteSize.X/2, 0, workspace.CurrentCamera.ViewportSize.X - Frame.AbsoluteSize.X)
-            local newY = math.clamp(mouse.Y - Frame.AbsoluteSize.Y/2, 0, workspace.CurrentCamera.ViewportSize.Y - Frame.AbsoluteSize.Y)
-            Frame.Position = UDim2.new(0, newX, 0, newY)
-        end
-    end)
+	hold.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			dragStart = input.Position
+			startPos = frame.Position
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+
+	frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			dragInput = input
+		end
+	end)
+
+	services.UserInputService.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
 end
-
--- 应用到 Open 按钮的父级 Frame
-safeDrag(Frame)
 
 function library.new(library, name,theme)
     for _, v in next, services.CoreGui:GetChildren() do
@@ -533,22 +542,14 @@ end
 
 -- Properties:
 
--- 修改 Frame 部分（添加红色边框）
+-- 修改 Frame 部分（添加圆角）
 Frame.Parent = dogent
-Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
-Frame.BackgroundTransparency = 0.5
-Frame.Size = UDim2.new(0, 54, 0, 54)
-
--- 删除或注释掉以下代码（如果存在）
-local FrameStroke = Instance.new("UIStroke")
-FrameStroke.Parent = Frame
-FrameStroke.Color = Color3.fromRGB(255, 0, 0)
-FrameStroke.Thickness = 2
-FrameStroke.LineJoinMode = Enum.LineJoinMode.Round
-FrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+Frame.Size = UDim2.new(0, 50, 0, 50)
+Frame.BackgroundTransparency = 1.000
 
 local FrameCorner = Instance.new("UICorner")
 FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
@@ -563,36 +564,13 @@ Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
--- 修复后的 Open 按钮逻辑
 Open.MouseButton1Click:Connect(function()
   Main.Visible = not Main.Visible
-  Main.Transparency = Main.Visible and 0 or 1
-  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412"
+  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
 end)
 
--- 修复拖拽残影的 Main 设置
-Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Main.BackgroundTransparency = 0.1  -- 保留轻微背景
-Main.Active = true
-Main.Draggable = true
-
--- 稳定的红色边框
-local mainStroke = Instance.new("UIStroke")
-mainStroke.Parent = Main
-mainStroke.Color = Color3.fromRGB(255, 0, 0)
-mainStroke.Thickness = 2
-mainStroke.LineJoinMode = Enum.LineJoinMode.Miter
-
-if Open:FindFirstChild("UIStroke") then
-    Open.UIStroke:Destroy()
-end
-OpenStroke.Parent = Open
-OpenStroke.Color = Color3.fromRGB(255, 0, 0)
-OpenStroke.Thickness = 2
-OpenStroke.LineJoinMode = Enum.LineJoinMode.Round
-
 local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 8)
+OpenCorner.CornerRadius = UDim.new(0, 8) --圆形大小
 OpenCorner.Name = "OpenCorner"
 OpenCorner.Parent = Open
 
