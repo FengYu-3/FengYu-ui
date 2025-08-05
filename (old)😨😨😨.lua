@@ -182,46 +182,37 @@ function switchTab(new)
 end
 
 -- # Drag, Stolen from Kiriot or Wally # --
-function drag(frame, hold)
-	if not hold then
-		hold = frame
-	end
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
+local function safeDrag(button)
+    local dragging
+    button.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            -- 拖动时临时提高透明度（减少残影）
+            Frame.BackgroundTransparency = 0.8
+        end
+    end)
 
-	local function update(input)
-		local delta = input.Position - dragStart
-		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
+    game:GetService("UserInputService").InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+            -- 恢复透明度
+            Frame.BackgroundTransparency = 0.5
+        end
+    end)
 
-	hold.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = true
-			dragStart = input.Position
-			startPos = frame.Position
-
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-
-	frame.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement then
-			dragInput = input
-		end
-	end)
-
-	services.UserInputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-	end)
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if dragging then
+            local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+            -- 限制拖拽范围（避免移出屏幕）
+            local newX = math.clamp(mouse.X - Frame.AbsoluteSize.X/2, 0, workspace.CurrentCamera.ViewportSize.X - Frame.AbsoluteSize.X)
+            local newY = math.clamp(mouse.Y - Frame.AbsoluteSize.Y/2, 0, workspace.CurrentCamera.ViewportSize.Y - Frame.AbsoluteSize.Y)
+            Frame.Position = UDim2.new(0, newX, 0, newY)
+        end
+    end)
 end
+
+-- 应用到 Open 按钮的父级 Frame
+safeDrag(Frame)
 
 function library.new(library, name,theme)
     for _, v in next, services.CoreGui:GetChildren() do
@@ -545,13 +536,13 @@ end
 -- 修改 Frame 部分（添加红色边框）
 Frame.Parent = dogent
 Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
-Frame.Size = UDim2.new(0, 50, 0, 50)
-Frame.BackgroundTransparency = 0.1
+Frame.BackgroundTransparency = 0.5
+Frame.Size = UDim2.new(0, 54, 0, 54)
 
--- 添加红色边框
+-- 删除或注释掉以下代码（如果存在）
 local FrameStroke = Instance.new("UIStroke")
 FrameStroke.Parent = Frame
 FrameStroke.Color = Color3.fromRGB(255, 0, 0)
@@ -564,40 +555,11 @@ FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
 FrameCorner.Name = "FrameCorner"
 FrameCorner.Parent = Frame
 
-local function safeDrag(button)
-    local dragToggle = false
-    local startPos
-    button.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragToggle = true
-            startPos = button.Position
-           
-            button:TweenSize(UDim2.new(0, 45, 0, 45), "Out", "Quad", 0.1, true)
-        end
-    end)
-
-    game:GetService("UserInputService").InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragToggle = false
-           
-            button:TweenSize(UDim2.new(0, 50, 0, 50), "Out", "Quad", 0.1, true)
-        end
-    end)
-
- 
-    game:GetService("RunService").Heartbeat:Connect(function()
-        if dragToggle then
-            local mouse = game:GetService("Players").LocalPlayer:GetMouse()
-           
-            local newX = math.clamp(mouse.X - button.AbsoluteSize.X/2, 0, workspace.CurrentCamera.ViewportSize.X - button.AbsoluteSize.X)
-            local newY = math.clamp(mouse.Y - button.AbsoluteSize.Y/2, 0, workspace.CurrentCamera.ViewportSize.Y - button.AbsoluteSize.Y)
-            button.Position = UDim2.new(0, newX, 0, newY)
-        end
-    end)
-end
-
-safeDrag(Open)
-
+Open.Parent = Frame
+Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Open.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Open.BorderSizePixel = 0
+Open.Size = UDim2.new(0, 50, 0, 50)
 Open.Active = true
 Open.Draggable = true
 Open.Image = "rbxassetid://84830962019412"
