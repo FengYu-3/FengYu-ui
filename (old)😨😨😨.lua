@@ -547,34 +547,44 @@ Frame.Parent = dogent
 Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
-Frame.Position = UDim2.new(
-    0.00829315186, math.floor(0.00829315186 * viewportSize.X),
-    0.31107837, math.floor(0.31107837 * viewportSize.Y)
-)
+Frame.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
 Frame.Size = UDim2.new(0, 50, 0, 50)
 Frame.BackgroundTransparency = 1.000
 
+
+-- 创建悬浮窗容器（Frame）
+local Frame = Instance.new("Frame")
+Frame.Parent = dogent
+Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)  -- 背景色
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.008, 0, 0.311, 0)
+Frame.Size = UDim2.new(0, 50, 0, 50)
+
+-- 关键修复1：添加圆角（UICorner）
 local FrameCorner = Instance.new("UICorner")
-FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小
-FrameCorner.Name = "FrameCorner"
+FrameCorner.CornerRadius = UDim.new(0, 8)  -- 圆角大小（8是较柔和的圆角）
 FrameCorner.Parent = Frame
 
+-- 关键修复2：添加描边（UIStroke）强化边缘
+local FrameStroke = Instance.new("UIStroke")
+FrameStroke.Color = Color3.fromRGB(255, 0, 0)  -- 描边颜色
+FrameStroke.Thickness = 1  -- 描边粗细（1-2像素最佳）
+FrameStroke.LineJoinMode = Enum.LineJoinMode.Round  -- 圆角连接
+FrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  -- 仅描边外框
+FrameStroke.Parent = Frame
+
+-- 创建悬浮窗按钮（Open）
+local Open = Instance.new("ImageButton")
 Open.Parent = Frame
 Open.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Open.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Open.BorderSizePixel = 0
-Open.Size = UDim2.new(0, 50, 0, 50)
-Open.Active = true
-Open.Draggable = true
-Open.Image = "rbxassetid://84830962019412"
-Open.MouseButton1Click:Connect(function()
-  Main.Visible = not Main.Visible
-  Open.Image = Main.Visible and "rbxassetid://84830962019412" or "rbxassetid://84830962019412" --开关的图
-end)
+Open.BackgroundTransparency = 1  -- 透明背景（仅显示图片）
+Open.Size = UDim2.new(1, 0, 1, 0)
+Open.Image = "rbxassetid://84830962019412"  -- 替换为你的高清图标
+Open.ScaleType = Enum.ScaleType.Fit  -- 避免图片缩放模糊
 
+-- 按钮圆角（与Frame一致）
 local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 8) --圆形大小
-OpenCorner.Name = "OpenCorner"
+OpenCorner.CornerRadius = UDim.new(0, 8)
 OpenCorner.Parent = Open
 
 UIG.Parent = Open
