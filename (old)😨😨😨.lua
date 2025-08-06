@@ -5,27 +5,24 @@ local library = {}
 local ToggleUI = false
 library.currentTab = nil
 library.flags = {}
-local Services = {
+local services = {
+    Players = game:GetService("Players"),
     TweenService = game:GetService("TweenService"),
     UserInputService = game:GetService("UserInputService"),
     CoreGui = game:GetService("CoreGui"),
-    Players = game:GetService("Players"),
 }
+local UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed then
+        -- 处理输入
+    end
+end)
 local mouse = services.Players.LocalPlayer:GetMouse()
 function Tween(obj, t, data)
 	services.TweenService
 		:Create(obj, TweenInfo.new(t[1], Enum.EasinFengYutyle[t[2]], Enum.EasingDirection[t[3]]), data)
 		:Play()
 	return true
-end
-local function ProtectUI(gui)
-    if pcall(function() gui.Parent = Services.CoreGui end) then
-        return true
-    end
-    return false
-end
-local function Tween(obj, t, data)
-    Services.TweenService:Create(obj, TweenInfo.new(t[1], Enum.EasingStyle[t[2]], Enum.EasingDirection[t[3]]), data):Play()
 end
 function Ripple(obj)
 	spawn(function()
@@ -61,21 +58,7 @@ function Ripple(obj)
 end
 local toggled = false
 local switchingTabs = false
-function UniversalUI.new(name)
-    for _, v in next, Services.CoreGui:GetChildren() do
-        if v.Name == "UniversalUI" then v:Destroy() end
-    end
-    local MainUI = Instance.new("ScreenGui")
-    MainUI.Name = "UniversalUI"
-    ProtectUI(MainUI)
-
-    local MainFrame = Instance.new("Frame")
-    MainFrame.Name = "Main"
-    MainFrame.Size = UDim2.new(0, 550, 0, 350)
-    MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-    MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-    MainFrame.BackgroundColor3 = config.BgColor
-    MainFrame.Parent = MainUI
+function switchTab(new)
 	if switchingTabs then
 		return
 	end
@@ -144,13 +127,11 @@ function library.new(library, name, theme)
 		end
 	end
 
-    local config = {
-        MainColor = Color3.fromRGB(16, 16, 16),
-        TabColor = Color3.fromRGB(22, 22, 22),
-        BgColor = Color3.fromRGB(17, 17, 17),
-        ButtonColor = Color3.fromRGB(22, 22, 22),
-        ToggleOn = Color3.fromRGB(37, 254, 152),
-    }
+	local config = {
+		MainColor = Color3.fromRGB(16, 16, 16),
+		TabColor = Color3.fromRGB(22, 22, 22),
+		Bg_Color = Color3.fromRGB(17, 17, 17),
+		Zy_Color = Color3.fromRGB(17, 17, 17), 
 
 		Button_Color = Color3.fromRGB(22, 22, 22),
 		Textbox_Color = Color3.fromRGB(22, 22, 22),
@@ -165,7 +146,17 @@ function library.new(library, name, theme)
 		Toggle_Off = Color3.fromRGB(34, 34, 34),
 		Toggle_On = Color3.fromRGB(37, 254, 152),
 	}
-	local FengYu = Instance.new("ScreenGui")
+    local FengYu = Instance.new("ScreenGui")
+    FengYu.Name = "UniversalUI"
+    
+    -- 通用UI保护
+    local function protectUI(gui)
+        if pcall(function() gui.Parent = services.CoreGui end) then
+            return true
+        end
+        return false
+    end
+    protectUI(FengYu)
 	local Main = Instance.new("Frame")
 	local TabMain = Instance.new("Frame")
 	local MainC = Instance.new("UICorner")
@@ -184,9 +175,13 @@ function library.new(library, name, theme)
 	local UIGradientTitle = Instance.new("UIGradient")
 
 
-	if syn and syn.protect_gui then
-		syn.protect_gui(FengYu)
-	end
+-- 替换以下代码
+    if syn and syn.protect_gui then
+    syn.protect_gui(FengYu)
+end
+if protect_gui then
+    protect_gui(FengYu)
+end
 	FengYu.Name = "REN"
 	FengYu.Parent = services.CoreGui
 	function UiDestroy()
@@ -928,30 +923,13 @@ function library.new(library, name, theme)
 					funcs:SetValue(currentValue)
 				end)
 				funcs:SetValue(default)
-				    local dragging, dragInput, dragStart
-    MainFrame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStart = input.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
-
-    Services.UserInputService.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            local delta = input.Position - dragStart
-            MainFrame.Position = UDim2.new(
-                MainFrame.Position.X.Scale,
-                MainFrame.Position.X.Offset + delta.X,
-                MainFrame.Position.Y.Scale,
-                MainFrame.Position.Y.Offset + delta.Y
-            )
-        end
-    end)
+				local dragging, boxFocused, allowed = false, false, { [""] = true, ["-"] = true }
+				SliderBar.InputBegan:Connect(function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						funcs:SetValue()
+						dragging = true
+					end
+				end)
 				services.UserInputService.InputEnded:Connect(function(input)
 					if dragging and input.UserInputType == Enum.UserInputType.MouseButton1 then
 						dragging = false
