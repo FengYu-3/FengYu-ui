@@ -2,6 +2,7 @@ repeat
 	task.wait()
 until game:IsLoaded()
 local library = {}
+function library.new(name)
 local ToggleUI = false
 library.currentTab = nil
 library.flaFengYu = {}
