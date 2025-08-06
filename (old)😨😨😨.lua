@@ -14,7 +14,7 @@ library.flaFengYu = {}
 local UserInputService = game:GetService("UserInputService")
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if not gameProcessed then
-        -- 处理输入
+        
     end
 end)
 local mouse = services.Players.LocalPlayer:GetMouse()
