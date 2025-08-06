@@ -2,7 +2,6 @@ repeat
 	task.wait()
 until game:IsLoaded()
 local library = {}
-function library.new(name)
 local ToggleUI = false
 library.currentTab = nil
 library.flaFengYu = {}
@@ -163,6 +162,13 @@ function library.new(library, name, theme)
 	}
     local FengYu = Instance.new("ScreenGui")
     FengYu.Name = "UniversalUI"
+    local function protectUI(gui)
+        if pcall(function() gui.Parent = services.CoreGui end) then
+            return true
+        end
+        return false
+    end
+    protectUI(FengYu)
 	local Main = Instance.new("Frame")
 	local TabMain = Instance.new("Frame")
 	local MainC = Instance.new("UICorner")
@@ -187,13 +193,6 @@ end
 if protect_gui then
     protect_gui(FengYu)
 end
-    local function protectUI(gui)
-        if pcall(function() gui.Parent = services.CoreGui end) then
-            return true
-        end
-        return false
-    end
-    protectUI(FengYu)
 	FengYu.Name = "REN"
 	FengYu.Parent = services.CoreGui
 	function UiDestroy()
