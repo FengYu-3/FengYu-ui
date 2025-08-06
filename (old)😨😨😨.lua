@@ -2,6 +2,7 @@ repeat
 	task.wait()
 until game:IsLoaded()
 local library = {}
+function library.new(name)
 local ToggleUI = false
 library.currentTab = nil
 library.flags = {}
@@ -379,12 +380,7 @@ end
 			Tab.CanvasSize = UDim2.new(0, 0, 0, TabL.AbsoluteContentSize.Y + 8)
 		end)
 		local tab = {}
-		    return {
-        Tab = function(tabName, icon)
-            -- 标签页创建代码
-        end
-    }
-end
+		function tab.section(tab, name, TabVal)
 			local Section = Instance.new("Frame")
 			local SectionC = Instance.new("UICorner")
 			local SectionText = Instance.new("TextLabel")
