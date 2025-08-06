@@ -161,14 +161,6 @@ function library.new(library, name, theme)
 		Toggle_On = Color3.fromRGB(37, 254, 152),
 	}
     local FengYu = Instance.new("ScreenGui")
-    FengYu.Name = "UniversalUI"
-    local function protectUI(gui)
-        if pcall(function() gui.Parent = services.CoreGui end) then
-            return true
-        end
-        return false
-    end
-    protectUI(FengYu)
 	local Main = Instance.new("Frame")
 	local TabMain = Instance.new("Frame")
 	local MainC = Instance.new("UICorner")
@@ -224,8 +216,15 @@ end
 	end)
 
 
-	local Open = Instance.new("ImageButton")
-	local UICorner = Instance.new("UICorner")
+    local function protectUI(gui)
+        if pcall(function() gui.Parent = services.CoreGui end) then
+            return true
+        end
+        return false
+    end
+    protectUI(FengYu)
+	local Open = Instance.
+	
 
 	Open.Name = "Open"
 	Open.Parent = FengYu
