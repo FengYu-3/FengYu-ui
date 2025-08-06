@@ -379,7 +379,12 @@ end
 			Tab.CanvasSize = UDim2.new(0, 0, 0, TabL.AbsoluteContentSize.Y + 8)
 		end)
 		local tab = {}
-		function tab.section(tab, name, TabVal)
+return {
+        Tab = function(tabName, icon)
+            -- 标签页创建代码
+        end
+    }
+end
 			local Section = Instance.new("Frame")
 			local SectionC = Instance.new("UICorner")
 			local SectionText = Instance.new("TextLabel")
