@@ -17,20 +17,6 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         -- 处理输入
     end
 end)
-local function safeCreate(instanceType, properties)
-    local success, instance = pcall(function()
-        return Instance.new(instanceType)
-    end)
-    if success then
-        for prop, value in pairs(properties) do
-            pcall(function()
-                instance[prop] = value
-            end)
-        end
-        return instance
-    end
-    return nil
-end
 local mouse = services.Players.LocalPlayer:GetMouse()
 function Tween(obj, t, data)
 	services.TweenService
@@ -161,6 +147,7 @@ function library.new(library, name, theme)
 		Toggle_On = Color3.fromRGB(37, 254, 152),
 	}
     local FengYu = Instance.new("ScreenGui")
+    FengYu.Name = "UniversalUI"
 	local Main = Instance.new("Frame")
 	local TabMain = Instance.new("Frame")
 	local MainC = Instance.new("UICorner")
@@ -185,6 +172,13 @@ end
 if protect_gui then
     protect_gui(FengYu)
 end
+    local function protectUI(gui)
+        if pcall(function() gui.Parent = services.CoreGui end) then
+            return true
+        end
+        return false
+    end
+    protectUI(FengYu)
 	FengYu.Name = "REN"
 	FengYu.Parent = services.CoreGui
 	function UiDestroy()
@@ -216,15 +210,8 @@ end
 	end)
 
 
-    local function protectUI(gui)
-        if pcall(function() gui.Parent = services.CoreGui end) then
-            return true
-        end
-        return false
-    end
-    protectUI(FengYu)
-	local Open = Instance.
-	
+	local Open = Instance.new("ImageButton")
+	local UICorner = Instance.new("UICorner")
 
 	Open.Name = "Open"
 	Open.Parent = FengYu
